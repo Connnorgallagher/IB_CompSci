@@ -10,25 +10,33 @@ from PySide2 import QtCore, QtGui, QtWidgets
 os.environ['PYTHONPATH'] = r"C:\Ib project"
 from HSTB.gui import qtGuiConfig
 # from HSTB.shared import RegistryHelpers
+
+def load_list(file_location):
+    team_list = []
+    phile = open("c:\\Ib project\\TeamPass", "r")
+    for record in phile.readlines():
+        team,password = record.split()
+        team_list.append(TeamPass(team,password))
+    return team_list
 def save_login(team_info, file_location):
     open(file_location, "w").write("trash")
 #team_info = {'Oakland': 'Luigi'}
 #team_info['Baltimore'] = "dad"
 
 class TeamPass:
-   ...:     def __init__(self, name, password):
-   ...:         self.name = name
-   ...:         self.password = password
-   ...:     def as_String(self):
-   ...:         val = f"{self.name} {self.password}\n"
-   ...:         return val
-   ...:     def read_string(self, data):
-   ...:         self.name , self.password = data.split()
+        def __init__(self, name, password):
+            self.name = name
+            self.password = password
+        def as_String(self):
+            val = f"{self.name} {self.password}\n"
+            return val
+        def read_string(self, data):
+            self.name , self.password = data.split()
 B = TeamPass("seattle", "Trash")
 In[8]: phile = open("c:\\Ib project\\TeamPass", "w")
-  ...: phile.write(A.as_String())
-  ...: phile.write(B.as_String())
-  ...: phile.close()
+   phile.write(A.as_String())
+   phile.write(B.as_String())
+   phile.close()
   s = A.as_String()
   oak,p = s.split()
   phile = open("c:\\Ib project\\TeamPass", "r")
@@ -40,6 +48,8 @@ class Login(qtGuiConfig.guiconfig_mixin):
         """
         # this loads a QT designer .ui file and creates some convenience functions and access names
         qtGuiConfig.guiconfig_mixin.__init__(self, os.path.join(os.path.split(__file__)[0], r"Log_in.ui"), [])  # , use_registry="connor")
+        self.
+
         # connect a button to a function
         # self.gui.windows.test_button.clicked.connect(self.print_values)
         self.win.buttonBox.accepted.connect(self.on_press_ok)
