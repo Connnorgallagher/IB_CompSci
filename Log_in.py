@@ -12,9 +12,28 @@ from HSTB.gui import qtGuiConfig
 # from HSTB.shared import RegistryHelpers
 def save_login(team_info, file_location):
     open(file_location, "w").write("trash")
-team_info = {'Oakland': 'Luigi'}
-team_info['Baltimore'] = "dad"
+#team_info = {'Oakland': 'Luigi'}
+#team_info['Baltimore'] = "dad"
 
+class TeamPass:
+   ...:     def __init__(self, name, password):
+   ...:         self.name = name
+   ...:         self.password = password
+   ...:     def as_String(self):
+   ...:         val = f"{self.name} {self.password}\n"
+   ...:         return val
+   ...:     def read_string(self, data):
+   ...:         self.name , self.password = data.split()
+B = TeamPass("seattle", "Trash")
+In[8]: phile = open("c:\\Ib project\\TeamPass", "w")
+  ...: phile.write(A.as_String())
+  ...: phile.write(B.as_String())
+  ...: phile.close()
+  s = A.as_String()
+  oak,p = s.split()
+  phile = open("c:\\Ib project\\TeamPass", "r")
+phile.readlines()
+    """ This is a class to keep team name and passwords together."""
 class Login(qtGuiConfig.guiconfig_mixin):
     def __init__(self):
         """ The __init__ does the start/setup and we are using the guiconfig module to make the ui code cleaner+easier
