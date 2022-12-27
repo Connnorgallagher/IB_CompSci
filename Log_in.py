@@ -13,7 +13,7 @@ from HSTB.gui import qtGuiConfig
 
 def load_list(file_location):
     team_list = []
-    phile = open("c:\\Ib project\\TeamPass", "r")
+    phile = open(file_location, "r")
     for record in phile.readlines():
         team,password = record.split()
         team_list.append(TeamPass(team,password))
@@ -41,45 +41,33 @@ class Login(qtGuiConfig.guiconfig_mixin):
         """
         # this loads a QT designer .ui file and creates some convenience functions and access names
         qtGuiConfig.guiconfig_mixin.__init__(self, os.path.join(os.path.split(__file__)[0], r"Log_in.ui"), [])  # , use_registry="connor")
-        self.team_list = load_list("c:\\Ib project\\TeamPass", "r")
+        self.team_list = load_list("c:\\Ib project\\TeamPass")
 
         # connect a button to a function
         # self.gui.windows.test_button.clicked.connect(self.print_values)
         self.win.buttonBox.accepted.connect(self.on_press_ok)
-        self.win.team.addItems(list(team_info.keys()))
+        for team_instance in self.team_list:
+            self.win.team_box.addItem(team_instance.name)
 
     def show(self):
         self.win.show()
 
     def on_press_ok(self):
-        if self.gui.team not in team_info:
-            team_info[self.gui.team] = self.gui.password
-            new_team = TeamPass(self.gui.team, self.gui.password)
+        found_name = False
+        for search_team in self.team_list:
+            if self.gui.team_box == search_team.name:
+                found_name = True
+                if self.gui.password_box == search_team.password:
+                    print("GOOD FAT BOY")
+                else:
+                    print("Trash")
+        if found_name == False:
+            new_team = TeamPass(self.gui.team_box, self.gui.password_box)
             self.team_list.append(new_team)
-            save_login(self.team_list,"c:\\Ib project\\TeamPass", "r")
+            save_login(self.team_list,"c:\\Ib project\\TeamPass")
         """ This function would be called when the test_button is pressed
         """
-        # we can access values using self.gui.name_from_designer
-        # the guiconfig module translates that to the appropriate commands for get/set of the values in whatever the object on screen is
-        print(1, self.gui.password)
-        # self.win is the thing that QT would give you back using the "loader" function on the .ui fil
-        # and you would have to find the text widget and either remember it or search every time
-        for ch in self.win.children():
-            if ch.objectName() == "password":
-                print(2, ch.toPlainText())
-        # but guiconfig also extends the self.win object so you can use the name from qtdesigner
-        print(3, self.win.password.toPlainText())
-        # and here is the team value
-        print(self.gui.team)
-        # using the self.gui naming, we can also change a value like it's a variable using guiconfig
-        self.gui.password = "override the text value"
-        # use the window (self.win) show how to add options to the dropdown part of the team
-        # see the docs for a qt combo box at https://doc.qt.io/qtforpython-5/PySide2/QtWidgets/Qcombobox.html
-        self.win.team.addItems(['barry', 'connor'])
-        if 1:
-            self.gui.team = 'my new name'
-        else:
-            self.win.team.setCurrentText("new name")
+
 
         
 def main():
