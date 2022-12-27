@@ -19,36 +19,29 @@ def load_list(file_location):
         team_list.append(TeamPass(team,password))
     return team_list
 def save_login(team_info, file_location):
-    open(file_location, "w").write("trash")
-#team_info = {'Oakland': 'Luigi'}
-#team_info['Baltimore'] = "dad"
+    phile = open(file_location, "w")
+    for team in team_info:
+        phile.write(team.as_string())
+
 
 class TeamPass:
-        def __init__(self, name, password):
-            self.name = name
-            self.password = password
-        def as_String(self):
-            val = f"{self.name} {self.password}\n"
-            return val
-        def read_string(self, data):
-            self.name , self.password = data.split()
-B = TeamPass("seattle", "Trash")
-In[8]: phile = open("c:\\Ib project\\TeamPass", "w")
-   phile.write(A.as_String())
-   phile.write(B.as_String())
-   phile.close()
-  s = A.as_String()
-  oak,p = s.split()
-  phile = open("c:\\Ib project\\TeamPass", "r")
-phile.readlines()
     """ This is a class to keep team name and passwords together."""
+    def __init__(self, name, password):
+        self.name = name
+        self.password = password
+    def as_string(self):
+        val = f"{self.name} {self.password}\n"
+        return val
+    def read_string(self, data):
+        self.name , self.password = data.split()
+
 class Login(qtGuiConfig.guiconfig_mixin):
     def __init__(self):
         """ The __init__ does the start/setup and we are using the guiconfig module to make the ui code cleaner+easier
         """
         # this loads a QT designer .ui file and creates some convenience functions and access names
         qtGuiConfig.guiconfig_mixin.__init__(self, os.path.join(os.path.split(__file__)[0], r"Log_in.ui"), [])  # , use_registry="connor")
-        self.
+        self.team_list = load_list("c:\\Ib project\\TeamPass", "r")
 
         # connect a button to a function
         # self.gui.windows.test_button.clicked.connect(self.print_values)
@@ -61,7 +54,9 @@ class Login(qtGuiConfig.guiconfig_mixin):
     def on_press_ok(self):
         if self.gui.team not in team_info:
             team_info[self.gui.team] = self.gui.password
-            save_login(team_info)
+            new_team = TeamPass(self.gui.team, self.gui.password)
+            self.team_list.append(new_team)
+            save_login(self.team_list,"c:\\Ib project\\TeamPass", "r")
         """ This function would be called when the test_button is pressed
         """
         # we can access values using self.gui.name_from_designer
