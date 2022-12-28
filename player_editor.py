@@ -4,6 +4,9 @@ import os
 import sys
 from PySide2 import QtCore, QtGui, QtWidgets
 # from PySide2.QtWidgets import QMessageBox, QApplication
+import sqlite3
+import os
+
 
 # Code from Barry Gallagher (available under https://github.com/noaa-ocs-hydrography)
 # cheap setup of the python path to see where it is on the local machine
@@ -12,16 +15,26 @@ from HSTB.gui import qtGuiConfig
 # from HSTB.shared import RegistryHelpers
 
 def load_list(file_location):
-    team_list = []
-    phile = open(file_location, "r")
-    for record in phile.readlines():
-        team,password = record.split()
-        team_list.append(TeamPass(team,password))
-    return team_list
-def save_login(team_info, file_location):
-    phile = open(file_location, "w")
-    for team in team_info:
-        phile.write(team.as_string())
+    player_all = {}
+    conn = sqlite3.connect(file_location)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    data = cur.execute("SELECT * FROM players").fetchall()
+    for player in data:
+        pass
+    return player_all
+def save_players(player_stats, file_location):
+    conn = sqlite3.connect(file_location)
+    cur = conn.cursor()
+    try:
+        cur.execute("CREATE TABLE players (name text, number integer, PA integer, B1 integer, B2 integer, B3 integer, B4 integer, "
+                    "BB integer, HBP integer, SO integer)")
+    except:
+        pass
+    cur.execute("insert into players values(?, ?, ?,?, ?,?, ?,?, ?,?)", ["connor", 18, 25,3,2,1,4,5,2,1])
+    conn.commit()
+    for player in player_stats:
+        player_stats = {}
 
 
 class TeamPass:
@@ -46,25 +59,17 @@ class PlayerEditor(qtGuiConfig.guiconfig_mixin):
         # connect a button to a function
         # self.gui.windows.test_button.clicked.connect(self.print_values)
         self.win.buttonBox.accepted.connect(self.on_press_ok)
-        for player_instance in self.player_list:
-            self.win.player_box.addItem(player_instance.name)
+       # for player_instance in self.player_list:
+        #    self.win.player_box.addItem(player_instance.name)
 
     def show(self):
         self.win.show()
 
     def on_press_ok(self):
-        found_name = False
-        for search_team in self.team_list:
-            if self.gui.team_box == search_team.name:
-                found_name = True
-                if self.gui.password_box == search_team.password:
-                    print("GOOD FAT BOY")
-                else:
-                    print("Trash")
-        if found_name == False:
-            new_team = TeamPass(self.gui.team_box, self.gui.password_box)
-            self.team_list.append(new_team)
-            save_login(self.team_list,"c:\\Ib project\\TeamPass")
+        save_players({}, "c:\\Ib project\\player_editor.db")
+
+        self.team_list.append(new_players)
+        save_players(self.team_list,"c:\\Ib project\\TeamPass")
         """ This function would be called when the test_button is pressed
         """
 
