@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="player_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -58,7 +58,7 @@
     <string>Player Number</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
+  <widget class="QPlainTextEdit" name="name_box">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -68,7 +68,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_2">
+  <widget class="QPlainTextEdit" name="number_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -91,7 +91,7 @@
     <string>Player Name</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_3">
+  <widget class="QPlainTextEdit" name="PA_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -114,7 +114,7 @@
     <string>Plate Apperances</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_4">
+  <widget class="QPlainTextEdit" name="B1_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -137,7 +137,7 @@
     <string>singles</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_5">
+  <widget class="QPlainTextEdit" name="B2_box">
    <property name="geometry">
     <rect>
      <x>120</x>
@@ -160,7 +160,7 @@
     <string>doubles</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_6">
+  <widget class="QPlainTextEdit" name="B3_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -183,7 +183,7 @@
     <string>triples</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_7">
+  <widget class="QPlainTextEdit" name="SO_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -206,7 +206,7 @@
     <string>walks</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_8">
+  <widget class="QPlainTextEdit" name="B4_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -229,7 +229,7 @@
     <string>Home runs</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_9">
+  <widget class="QPlainTextEdit" name="BB_box">
    <property name="geometry">
     <rect>
      <x>130</x>
@@ -252,7 +252,7 @@
     <string>Strike out</string>
    </property>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit_10">
+  <widget class="QPlainTextEdit" name="HBP_box">
    <property name="geometry">
     <rect>
      <x>120</x>
