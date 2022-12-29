@@ -21,7 +21,7 @@ def load_list(file_location):
     cur = conn.cursor()
     data = cur.execute("SELECT * FROM players").fetchall()
     for player in data:
-        pass
+        player_all[player["name"]] = player
     return player_all
 def save_players(player_stats, file_location):
     conn = sqlite3.connect(file_location)
@@ -33,20 +33,13 @@ def save_players(player_stats, file_location):
         pass
     cur.execute("insert into players values(?, ?, ?,?, ?,?, ?,?, ?,?)", ["connor", 18, 25,3,2,1,4,5,2,1])
     conn.commit()
-    for player in player_stats:
-        player_stats = {}
+    for player in player_stats.values():
+         cur.execute("insert into players values(?, ?, ?,?, ?,?, ?,?, ?,?)", [player["name"], player["number"], player["PA"],
+                                                                              player["B1"],player["B2"],player["B3"],
+                                                                              player["B4"],player["BB"],player["HBP"],player["SO"]])
+    conn.commit()
 
 
-class TeamPass:
-    """ This is a class to keep team name and passwords together."""
-    def __init__(self, name, password):
-        self.name = name
-        self.password = password
-    def as_string(self):
-        val = f"{self.name} {self.password}\n"
-        return val
-    def read_string(self, data):
-        self.name , self.password = data.split()
 
 class PlayerEditor(qtGuiConfig.guiconfig_mixin):
     def __init__(self):
@@ -54,22 +47,25 @@ class PlayerEditor(qtGuiConfig.guiconfig_mixin):
         """
         # this loads a QT designer .ui file and creates some convenience functions and access names
         qtGuiConfig.guiconfig_mixin.__init__(self, os.path.join(os.path.split(__file__)[0], r"Player_editor.ui"), [])  # , use_registry="connor")
-        #self.team_list = load_list("c:\\Ib project\\")
+        self.stat_dict = load_list("c:\\Ib project\\player_editor.db")
 
         # connect a button to a function
         # self.gui.windows.test_button.clicked.connect(self.print_values)
         self.win.buttonBox.accepted.connect(self.on_press_ok)
-       # for player_instance in self.player_list:
-        #    self.win.player_box.addItem(player_instance.name)
+        for player_name in self.stat_dict:
+            self.win.player_box.addItem(player_name)
 
     def show(self):
         self.win.show()
 
     def on_press_ok(self):
-        save_players({}, "c:\\Ib project\\player_editor.db")
-
-        self.team_list.append(new_players)
-        save_players(self.team_list,"c:\\Ib project\\TeamPass")
+        self.stat_dict[self.gui.name_box] = {"name": self.gui.name_box, "PA": self.gui.PA_box,
+                                             "number": self.gui.number_box,
+                                             "B1": self.gui.B1_box, "B2": self.gui.B2_box,
+                                             "B3": self.gui.B3_box, "B4": self.gui.B4_box,
+                                             "BB": self.gui.BB_box,
+                                             "HBP": self.gui.HBP_box, "SO": self.gui.SO_box}
+        save_players(self.stat_dict, "c:\\Ib project\\player_editor.db")
         """ This function would be called when the test_button is pressed
         """
 
