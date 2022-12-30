@@ -4,6 +4,7 @@ import os
 import sys
 from PySide2 import QtCore, QtGui, QtWidgets
 import pickle
+import player_editor
 # from PySide2.QtWidgets import QMessageBox, QApplication
 
 # Code from Barry Gallagher (available under https://github.com/noaa-ocs-hydrography)
@@ -35,19 +36,27 @@ class BattingOrder(qtGuiConfig.guiconfig_mixin):
         """
         # this loads a QT designer .ui file and creates some convenience functions and access names
         qtGuiConfig.guiconfig_mixin.__init__(self, os.path.join(os.path.split(__file__)[0], r"batting order.ui"), [])  # , use_registry="connor")
-        self.batting_list = []
-        #self.batting_list = load_list("c:\\Ib project\\batting order.ui")
+        self.player_list = player_editor.load_list("c:\\Ib project\\player_editor.db")
+        self.batting_list = load_list("c:\\Ib project\\BattingOrder.pickle")
 
         # connect a button to a function
         # self.gui.windows.test_button.clicked.connect(self.print_values)
         self.win.buttonBox.accepted.connect(self.on_press_ok)
-        for batter_instance in self.batting_list:
-            self.win.player_box.addItem(batter_instance.name)
+        for player_name in self.player_list:
+            for i in range(1,10):
+                self.gui.windows["batter" + str(i)].addItem(player_name)
+            self.win.eh.addItem(player_name)
+        print(self.batting_list)
+        [self.gui.batter1, self.gui.batter2, self.gui.batter3, self.gui.batter4, self.gui.batter5,
+         self.gui.batter6, self.gui.batter7, self.gui.batter8, self.gui.batter9, self.gui.eh] = self.batting_list
 
     def show(self):
         self.win.show()
 
     def on_press_ok(self):
+        self.batting_list = [self.gui.batter1, self.gui.batter2, self.gui.batter3, self.gui.batter4, self.gui.batter5,
+                             self.gui.batter6, self.gui.batter7, self.gui.batter8, self.gui.batter9, self.gui.eh]
+        save_order(self.batting_list, "c:\\Ib project\\BattingOrder.pickle")
         print(self.gui.batter1)
         found_name = False
         """
