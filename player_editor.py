@@ -62,7 +62,7 @@ class PlayerEditor(qtGuiConfig.guiconfig_mixin):
             self.win.player_box.addItem(player_name)
 
     def player_box_change(self):
-        player = self.stat_dict["connor"]
+        player = self.stat_dict[self.gui.player_box]
         self.gui.name_box = str(player["name"])
         self.gui.PA_box = str(player["PA"])
         self.gui.B1_box = str(player["B1"])
