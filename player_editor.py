@@ -33,12 +33,14 @@ def save_players(player_stats, file_location):
         pass
     conn.commit()
     for player in player_stats.values():
-        cur.execute("update players set (number, PA, B1, B2, B3, B4, BB, HBP, SO)=(?,?,?,?,?,?,?,?,?) WHERE name=(?)",[ player["number"], player["PA"],
+        did_update = cur.execute("update players set (number, PA, B1, B2, B3, B4, BB, HBP, SO)=(?,?,?,?,?,?,?,?,?) WHERE name=(?)",[ player["number"], player["PA"],
                                                                               player["B1"],player["B2"],player["B3"],
-                                                                              player["B4"],player["BB"],player["HBP"],player["SO"], player["name"]])
-        #cur.execute("insert into players values(?, ?, ?,?, ?,?, ?,?, ?,?)", [player["name"], player["number"], player["PA"],
-        #                                                                      player["B1"],player["B2"],player["B3"],
-        #                                                                      player["B4"],player["BB"],player["HBP"],player["SO"]])
+                                                                              player["B4"],player["BB"],player["HBP"],player["SO"], player["name"]]).rowcount
+        print(did_update)
+        if did_update == 0:
+            cur.execute("insert into players values(?, ?, ?,?, ?,?, ?,?, ?,?)", [player["name"], player["number"], player["PA"],
+                                                                               player["B1"],player["B2"],player["B3"],
+                                                                               player["B4"],player["BB"],player["HBP"],player["SO"]])
 
     conn.commit()
 
@@ -61,15 +63,15 @@ class PlayerEditor(qtGuiConfig.guiconfig_mixin):
 
     def player_box_change(self):
         player = self.stat_dict["connor"]
-        self.gui.name_box = player["name"]
-        self.gui.PA_box = player["PA"]
-        self.gui.B1_box = player["B1"]
-        self.gui.B2_box = player["B2"]
-        self.gui.B3_box = player["B3"]
-        self.gui.B4_box = player["B4"]
-        self.gui.BB_box = player["BB"]
-        self.gui.HBP_box = player["HBP"]
-        self.gui.SO_box = player["SO"]
+        self.gui.name_box = str(player["name"])
+        self.gui.PA_box = str(player["PA"])
+        self.gui.B1_box = str(player["B1"])
+        self.gui.B2_box = str(player["B2"])
+        self.gui.B3_box = str(player["B3"])
+        self.gui.B4_box = str(player["B4"])
+        self.gui.BB_box = str(player["BB"])
+        self.gui.HBP_box = str(player["HBP"])
+        self.gui.SO_box = str(player["SO"])
         self.gui.number_box = str(player["number"])
     def show(self):
         self.win.show()
