@@ -2,11 +2,11 @@ import os
 import sys
 from PySide2 import QtCore, QtGui, QtWidgets
 import player_editor
-import batting_order
+## import batting_order
 import random
 
 player_list = player_editor.load_list("c:\\Ib project\\player_editor.db")
-batting_list = batting_order.load_list("c:\\Ib project\\BattingOrder.pickle")
+#batting_list = batting_order.load_list("c:\\Ib project\\BattingOrder.pickle")
 
 def half_inning(batting_order, lead_off):
     # @todo change the batter, tell game who last batter was
