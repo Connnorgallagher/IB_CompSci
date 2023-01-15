@@ -56,9 +56,13 @@ class BattingOrder(qtGuiConfig.guiconfig_mixin):
     def simulate(self):
         self.batting_list = [self.gui.batter1, self.gui.batter2, self.gui.batter3, self.gui.batter4, self.gui.batter5,
                              self.gui.batter6, self.gui.batter7, self.gui.batter8, self.gui.batter9, self.gui.eh]
-        r = game_sim.half_inning(self.batting_list, 0)
-        self.drawing.draw_name()
-        print(r)
+        sr = 0
+        for game in range(1,163):
+            tr = game_sim.game(self.batting_list)
+            #print (tr)
+            sr += tr
+            #sr is season runs
+        print (sr/162)
     def show(self):
         self.win.show()
 

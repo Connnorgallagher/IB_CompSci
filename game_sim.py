@@ -17,6 +17,9 @@ def half_inning(batting_order, lead_off):
     third = False
     while outs<3:
         total_bases = plate_app(player_list[batting_order[lead_off]])
+        lead_off += 1
+        if lead_off == len(batting_order):
+            lead_off = 0
         if total_bases == 0:
             outs += 1
         elif total_bases == 1:
@@ -66,7 +69,7 @@ def half_inning(batting_order, lead_off):
 
         if outs == 3:
             pass
-    return score
+    return score, lead_off
 def extra_base(runner):
     #going first to third on a single
     return False
@@ -96,8 +99,8 @@ def pitch():
     """" here if I add pitching and defense """
     pass
 
-def game():
-    inning = 1
+def game(batting_list):
+    """inning = 1
     score_home_total = 0
     score_computer_total = 0
     score_computer_inning = half_inning()
@@ -109,7 +112,16 @@ def game():
     else:
         pass
     if inning >=10 and score_home_total < score_computer_total:
-        pass
+        pass"""
+    lead_off = 0
+    total_runs = 0
+    for inning in range(1,10):
+        r, lead_off = half_inning(batting_list, lead_off)
+
+        #self.drawing.draw_name()
+        #print(r, lead_off+1)
+        total_runs += r
+    return total_runs
 
 if __name__ == "__main__":
     r = half_inning(batting_list, 0)
